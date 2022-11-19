@@ -367,7 +367,6 @@ def update_charts(region):
         (dfs.Symbol == region)
     )
     filtered_data = dfs.loc[mask, :]
-    print(filtered_data)
     df_nse=filtered_data
     """new_data=pd.DataFrame(index=range(0,len(df_nse)),columns=['Date','Close'])
     for i in range(0,len(data)):
@@ -418,8 +417,8 @@ def update_charts(region):
     price_chart_figure = {
         "data": [
             {
-                "x": filtered_data["Date"],
-                "y": filtered_data["Close"],
+                "x": df_nse["Date"],
+                "y": df_nse["Close"],
                 "type": "lines",
                 "hovertemplate": "$%{y:.2f}<extra></extra>",
             },
