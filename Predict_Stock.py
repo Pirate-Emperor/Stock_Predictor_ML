@@ -359,16 +359,19 @@ def update_graph(selected_dropdown_value):
     [Output("price-chart", "figure"), Output("volume-chart", "figure")],
     [
         Input("region-filter", "value"),
-        
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
     ],
 )
-def update_charts(region):
+def update_charts(region, start_date, end_date):
     mask = (
         (dfs.Symbol == region)
+        & (dfs.Date >= start_date)
+        & (dfs.Date <= end_date)
     )
-    filtered_data = dfs.loc[mask, :]
+    filtered_data = dfs2.loc[mask, :]
     df_nse=filtered_data
-    """new_data=pd.DataFrame(index=range(0,len(df_nse)),columns=['Date','Close'])
+    new_data=pd.DataFrame(index=range(0,len(df_nse)),columns=['Date','Close'])
     for i in range(0,len(data)):
         new_data["Date"][i]=data['Date'][i]
         new_data["Close"][i]=data["Close"][i]
@@ -378,9 +381,9 @@ def update_charts(region):
 
     dataset=new_data.values
 
-    train=dataset[:,:]
-    valid=pd. date_range(start=start_date,end=end_date)
-    valid["Date"]=pd. date_range(start=start_date,end=end_date)
+    train=dataset[dataset.Date<start_date][:]
+    valid=[dataset.Date<start_date & dataset.Date<start_date][:]
+    valid['Date']=pd.date_range(start=start_date,end=end_date).to_pydatetime().tolist()
 
     scaler=MinMaxScaler(feature_range=(0,1))
     scaled_data=scaler.fit_transform(dataset)
@@ -413,12 +416,12 @@ def update_charts(region):
     closing_price=scaler.inverse_transform(closing_price)
 
     train=new_data
-    valid['Predictions']=closing_price"""
+    valid['Predictions']=closing_price
     price_chart_figure = {
         "data": [
             {
-                "x": df_nse["Date"],
-                "y": df_nse["Close"],
+                "x": valid["Date"],
+                "y": valid["Close"],
                 "type": "lines",
                 "hovertemplate": "$%{y:.2f}<extra></extra>",
             },
