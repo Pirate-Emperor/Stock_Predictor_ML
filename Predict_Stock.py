@@ -152,6 +152,7 @@ app.layout = html.Div(
                     children=dcc.Graph(
                         id="price-chart",
                         config={"displayModeBar": False},
+                        figure={"layout":go.Layout(template="plotly_dark")},
                     ),
                     className="card",
                 ),
@@ -159,6 +160,7 @@ app.layout = html.Div(
                     children=dcc.Graph(
                         id="volume-chart",
                         config={"displayModeBar": False},
+                        figure={"layout":go.Layout(template="plotly_dark")},
                     ),
                     className="card",
                 ),
@@ -183,6 +185,7 @@ app.layout = html.Div(
                             ),
                         ],
                         "layout":go.Layout(
+                            template="plotly_dark",
                             title='Actual Closing Price',
                             xaxis={'title':'Date'},
                             yaxis={'title':'Closing Rate'}
@@ -202,6 +205,7 @@ app.layout = html.Div(
 							),
                         ],
                         "layout":go.Layout(
+                            template="plotly_dark",
                             title='Predicted Closing Price',
                             xaxis={'title':'Date'},
                             yaxis={'title':'Closing Rate'}
@@ -233,6 +237,7 @@ app.layout = html.Div(
 
 						],
 						"layout":go.Layout(
+                            template="plotly_dark",
 							title='Combined Plot',
 							xaxis={'title':'Date'},
 							yaxis={'title':'Closing Rate'}
@@ -256,7 +261,7 @@ app.layout = html.Div(
                             options=[{'label':x,'value':x} for x in set_df],
                              multi=True,value=['ADANIPORTS'],
                              style={"display": "block", "margin-left": "auto", 
-                                    "margin-right": "auto", "width": "60%"}),
+                                    "margin-right": "auto", "width": "80%"}),
                             
                 dcc.Graph(id='highlow',className="card",),
                 html.H1("Stocks Market Volume", style={'textAlign': 'center'}),
@@ -266,7 +271,7 @@ app.layout = html.Div(
                              options=[{'label':x,'value':x} for x in set_df],
                              multi=True,value=['ADANIPORTS'],
                              style={"display": "block", "margin-left": "auto", 
-                                    "margin-right": "auto", "width": "60%"}),
+                                    "margin-right": "auto", "width": "80%"}),
                 dcc.Graph(id='volume',className="card",)
             ], className="container"),
         ])
@@ -306,6 +311,7 @@ def update_graph(selected_dropdown):
               'layout': go.Layout(colorway=["#5E0DAC", '#FF4F00', '#375CB1', 
                                             '#FF7400', '#FFF400', '#FF0056'],
             height=600,
+            template="seaborn",
             title=f"High and Low Prices for {', '.join(str(i) for i in selected_dropdown)} Over Time",
             xaxis={"title":"Date",
                    'rangeselector': {'buttons': list([{'count': 1, 'label': '1M', 
@@ -341,6 +347,7 @@ def update_graph(selected_dropdown_value):
               'layout': go.Layout(colorway=["#5E0DAC", '#FF4F00', '#375CB1', 
                                             '#FF7400', '#FFF400', '#FF0056'],
             height=600,
+            template="seaborn",
             title=f"Market Volume for {', '.join(str(i) for i in selected_dropdown_value)} Over Time",
             xaxis={"title":"Date",
                    'rangeselector': {'buttons': list([{'count': 1, 'label': '1M', 
@@ -441,16 +448,17 @@ def update_charts(region, start_date, end_date):
                 "hovertemplate": "$%{y:.2f}<extra></extra>",
             },
         ],
-        "layout": {
-            "title": {
+        "layout": go.Layout(
+            template="plotly_dark",
+            title= {
                 "text": "Predicted Close Price for future interval",
                 "x": 0.05,
                 "xanchor": "left",
             },
-            "xaxis": {"fixedrange": True},
-            "yaxis": {"tickprefix": "$", "fixedrange": True},
-            "colorway": ["#17B897"],
-        },
+            xaxis= {"fixedrange": True},
+            yaxis= {"tickprefix": "$", "fixedrange": True},
+            colorway= ["#17B897"],
+        ),
     }
 
     volume_chart_figure = {
@@ -462,12 +470,13 @@ def update_charts(region, start_date, end_date):
                 "hovertemplate": "$%{y:.2f}<extra></extra>",
             },
         ],
-        "layout": {
-            "title": {"text": "Actual Close Price for past interval", "x": 0.05, "xanchor": "left"},
-            "xaxis": {"fixedrange": True},
-            "yaxis": {"fixedrange": True},
-            "colorway": ["#E12D39"],
-        },
+        "layout": go.Layout(
+            template="plotly_dark",
+            title= {"text": "Actual Close Price for past interval", "x": 0.05, "xanchor": "left"},
+            xaxis= {"fixedrange": True},
+            yaxis= {"fixedrange": True},
+            colorway= ["#E12D39"],
+        ),
     }
     return price_chart_figure, volume_chart_figure
 
