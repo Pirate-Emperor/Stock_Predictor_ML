@@ -34,7 +34,7 @@ df_nse.index=df_nse['Date']
 data=df_nse.sort_index(ascending=True,axis=0)
 
 # DATASET TO BE OPERATED ON
-new_data=pd.DataFrame(index=range(0,len(df_nse)),columns=['Date','Close'])
+new_data=pd.DataFrame(index=range(0,len(data)),columns=['Date','Close'])
 for i in range(0,len(data)):
     new_data["Date"][i]=data['Date'][i]
     new_data["Close"][i]=data["Close"][i]
@@ -61,7 +61,7 @@ x_train,y_train=np.array(x_train),np.array(y_train)
 x_train=np.reshape(x_train,(x_train.shape[0],x_train.shape[1],1))
 
 # Loading Model 
-model=load_model("saved_lstm_model.h5")
+model=load_model("saved_lstm_modelADANIPORTS.h5")
 
 inputs=new_data[len(new_data)-len(valid)-60:].values
 inputs=inputs.reshape(-1,1)
@@ -136,9 +136,9 @@ app.layout = html.Div(
                         ),
                         dcc.DatePickerRange(
                             id="date-range",
-                            min_date_allowed=dfs2.Date.min().date(),
+                            min_date_allowed=datetime(2015, 1, 1),
                             max_date_allowed=dfs2.Date.max().date(),
-                            start_date=dfs2.Date.min().date(),
+                            start_date=datetime(2015, 1, 1),
                             end_date=dfs2.Date.max().date(),
                         ),
                     ]
@@ -252,14 +252,17 @@ app.layout = html.Div(
                 html.H1("Stocks High vs Lows", 
                         style={'textAlign': 'center'}),
                 dcc.Dropdown(id='my-dropdown',
+                            className='car',
                             options=[{'label':x,'value':x} for x in set_df],
                              multi=True,value=['ADANIPORTS'],
                              style={"display": "block", "margin-left": "auto", 
                                     "margin-right": "auto", "width": "60%"}),
+                            
                 dcc.Graph(id='highlow',className="card",),
                 html.H1("Stocks Market Volume", style={'textAlign': 'center'}),
          
                 dcc.Dropdown(id='my-dropdown2',
+                            className='car',
                              options=[{'label':x,'value':x} for x in set_df],
                              multi=True,value=['ADANIPORTS'],
                              style={"display": "block", "margin-left": "auto", 
@@ -369,10 +372,20 @@ def update_charts(region, start_date, end_date):
         & (dfs.Date >= start_date)
         & (dfs.Date <= end_date)
     )
-    filtered_data = dfs2.loc[mask, :]
-    df_nse=filtered_data
-    new_data=pd.DataFrame(index=range(0,len(df_nse)),columns=['Date','Close'])
-    for i in range(0,len(data)):
+    df_nse = pd.read_csv("archive//"+region+".csv")
+    ct=0
+    for i in df_nse.Date:
+        if (i<start_date): 
+            ct+=1
+    df_nse["Date"]=pd.to_datetime(df_nse.Date,format="%Y-%m-%d")
+    df_nse.sort_values("Date", inplace=True)
+    df_nse.index=df_nse['Date']
+    data=df_nse.sort_index(ascending=True,axis=0)
+
+    # DATASET TO BE OPERATED ON
+    new_data=pd.DataFrame(index=range(0,len(data)),columns=['Date','Close'])
+    
+    for i in range(0,len(data)): 
         new_data["Date"][i]=data['Date'][i]
         new_data["Close"][i]=data["Close"][i]
 
@@ -381,9 +394,8 @@ def update_charts(region, start_date, end_date):
 
     dataset=new_data.values
 
-    train=dataset[dataset.Date<start_date][:]
-    valid=[dataset.Date<start_date & dataset.Date<start_date][:]
-    valid['Date']=pd.date_range(start=start_date,end=end_date).to_pydatetime().tolist()
+    train=dataset[0:ct,:]
+    valid=dataset[ct:,:]
 
     scaler=MinMaxScaler(feature_range=(0,1))
     scaled_data=scaler.fit_transform(dataset)
@@ -415,13 +427,16 @@ def update_charts(region, start_date, end_date):
     closing_price=model.predict(X_test)
     closing_price=scaler.inverse_transform(closing_price)
 
-    train=new_data
+    train=new_data[:ct]
+    valid=new_data[ct:]
     valid['Predictions']=closing_price
+
+    
     price_chart_figure = {
         "data": [
             {
-                "x": valid["Date"],
-                "y": valid["Close"],
+                "x": valid.index,
+                "y": valid["Predictions"],
                 "type": "lines",
                 "hovertemplate": "$%{y:.2f}<extra></extra>",
             },
@@ -441,14 +456,14 @@ def update_charts(region, start_date, end_date):
     volume_chart_figure = {
         "data": [
             {
-                "x": filtered_data["Date"],
-                "y": filtered_data["Close"],
+                "x": train.index,
+                "y": train["Close"],
                 "type": "lines",
                 "hovertemplate": "$%{y:.2f}<extra></extra>",
             },
         ],
         "layout": {
-            "title": {"text": "Predicted Close Price for past interval", "x": 0.05, "xanchor": "left"},
+            "title": {"text": "Actual Close Price for past interval", "x": 0.05, "xanchor": "left"},
             "xaxis": {"fixedrange": True},
             "yaxis": {"fixedrange": True},
             "colorway": ["#E12D39"],

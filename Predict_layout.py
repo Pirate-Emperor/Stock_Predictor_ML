@@ -206,7 +206,6 @@ app.layout = html.Div(
 				)				
 			])        		
 
-
         ]),
         dcc.Tab(label='DataBase Verification',
                 className='custom-tab',
@@ -231,7 +230,6 @@ app.layout = html.Div(
                 dcc.Graph(id='volume',className="card",)
             ], className="container"),
         ])
-
 
     ])
     ],
