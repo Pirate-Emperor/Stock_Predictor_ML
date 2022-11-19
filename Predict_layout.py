@@ -4,8 +4,6 @@ import dash_html_components as html
 import pandas as pd
 import plotly.graph_objs as go
 from dash.dependencies import Input, Output
-from keras.models import load_model
-from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 from datetime import datetime
 # DASH SERVER
