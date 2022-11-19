@@ -1,0 +1,107 @@
+.custom-tabs-container {
+    width: 100%;
+}
+.custom-tabs {
+    border-top-left-radius: 3px;
+    background-color: #f9f9f9;
+    padding: 1px 20px;
+    align-self: right;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.custom-tab {
+    color:#586069;
+    border-top-left-radius: 6px;
+    border-top-right-radius:6px;
+    border-top: 3px solid transparent !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
+    border-bottom: 0px !important;
+    background-color: #fafbfc;
+    padding: 12px !important;
+    font-weight: bolder;
+    font-size: 10;
+    font-family: 'Times New Roman', Times, serif;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+.custom-tab--selected {
+    color: black;
+    font-family: "system-ui";
+    box-shadow: 1px 1px 0px white;
+    border-left: 1px solid lightgrey !important;
+    border-right: 1px solid lightgrey !important;
+    border-top: 3px solid #e36209 !important;
+}
+
+
+
+body {
+    font-family: "Lato", sans-serif;
+    margin: 0;
+    background-color: #F7F7F7;
+}
+
+.header {
+    background-color: #222222;
+    height: 288px;
+    padding: 16px 0 0 0;
+}
+
+.header-emoji {
+    font-size: 48px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.header-title {
+    color: #FFFFFF;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.header-description {
+    color: #CFCFCF;
+    margin: 4px auto;
+    text-align: center;
+    max-width: 384px;
+}
+
+.wrapper {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1024px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-top: 32px;
+}
+
+.card {
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.18);
+}
+
+
+
+.Select-control {
+    width: 256px;
+    height: 48px;
+}
+
+.Select--single > .Select-control .Select-value, .Select-placeholder {
+    line-height: 48px;
+}
+
+.Select--multi .Select-value-label {
+    line-height: 32px;
+}
+
+.menu-title {
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #079A82;
+}
+
