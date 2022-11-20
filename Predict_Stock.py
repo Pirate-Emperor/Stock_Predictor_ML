@@ -83,13 +83,12 @@ valid['Predictions']=closing_price
 
 
 # Displaying Plots 
-df= pd.read_csv("./stock_data.csv")
+df= pd.read_csv("archive//NIFTY50_all.csv")
 
 app.layout = html.Div(
     children=[
     html.Div(
             children=[
-                html.P(children=[html.Img(src="C:\\Users\\Rahul\\Downloads\\materials-python-dash\\apps\\app_4\\assets\\images.png",alt="Yo")], className="header-emoji"),
                 html.H1(
                     children="Stock Price Analysis Dashboard", className="header-title"
                 ),
@@ -123,7 +122,7 @@ app.layout = html.Div(
                                 {"label": region, "value": region}
                                 for region in np.sort(dfs.Symbol.unique())
                             ],
-                            value="Albany",
+                            value="ADANIPORTS",
                             clearable=False,
                             className="dropdown",
                         ),
@@ -188,7 +187,7 @@ app.layout = html.Div(
                             template="plotly_dark",
                             title='Actual Closing Price',
                             xaxis={'title':'Date'},
-                            yaxis={'title':'Closing Rate'}
+                            yaxis={"tickprefix": "$",'title':'Closing Rate'}
                         )
                     },
                     className="card",
@@ -208,7 +207,7 @@ app.layout = html.Div(
                             template="plotly_dark",
                             title='Predicted Closing Price',
                             xaxis={'title':'Date'},
-                            yaxis={'title':'Closing Rate'}
+                            yaxis={"tickprefix": "$",'title':'Closing Rate'}
                         )
                     },
                     className="card",
@@ -240,7 +239,7 @@ app.layout = html.Div(
                             template="plotly_dark",
 							title='Combined Plot',
 							xaxis={'title':'Date'},
-							yaxis={'title':'Closing Rate'}
+							yaxis={"tickprefix": "$",'title':'Closing Rate'}
 						)
 					},
                     className="card",
@@ -291,7 +290,6 @@ app.layout = html.Div(
 @app.callback(Output('highlow', 'figure'),
               [Input('my-dropdown', 'value')])
 def update_graph(selected_dropdown):
-    #dropdown = {"TSLA": "Tesla","AAPL": "Apple","FB": "Facebook","MSFT": "Microsoft",}
     trace1 = []
     trace2 = []
     for stock in selected_dropdown:
@@ -325,14 +323,13 @@ def update_graph(selected_dropdown):
                                                        'stepmode': 'backward'},
                                                       {'step': 'all'}])},
                    'rangeslider': {'visible': True}, 'type': 'date'},
-             yaxis={"title":"Price (USD)"})}
+             yaxis={"tickprefix": "$","title":"Price (USD)"})}
     return figure
 
 
 @app.callback(Output('volume', 'figure'),
               [Input('my-dropdown2', 'value')])
 def update_graph(selected_dropdown_value):
-    #dropdown = {"TSLA": "Tesla","AAPL": "Apple","FB": "Facebook","MSFT": "Microsoft",}
     trace1 = []
     for stock in selected_dropdown_value:
         trace1.append(
@@ -474,7 +471,7 @@ def update_charts(region, start_date, end_date):
             template="plotly_dark",
             title= {"text": "Actual Close Price for past interval", "x": 0.05, "xanchor": "left"},
             xaxis= {"fixedrange": True},
-            yaxis= {"fixedrange": True},
+            yaxis= {"tickprefix": "$","fixedrange": True},
             colorway= ["#E12D39"],
         ),
     }

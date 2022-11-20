@@ -1,0 +1,44 @@
+html.Div([
+        html.H1("Stock Price Analysis Dashboard", style={"textAlign": "center"}),
+    ],
+    className="header2",
+    ),
+
+
+justify-content: space-evenly;
+display: flex;
+
+.menu {
+    height: 112px;
+    width: 912px;
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 24px;
+    margin: -80px auto 0 auto;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.18);
+}
+
+options=[{'label': 'Tesla', 'value': 'TSLA'},
+                                      {'label': 'Apple','value': 'AAPL'}, 
+                                      {'label': 'Facebook', 'value': 'FB'}, 
+                                      {'label': 'Microsoft','value': 'MSFT'}], 
+
+set_df=["ADANIPORTS","ASIANPAINT","AXISBANK","BAJAJ-AUTO","BAJAJFINSV","BAJFINANCE","BHARTIARTL",
+"BPCL","BRITANNIA","CIPLA","COALINDIA","DRREDDY","EICHERMOT","GAIL","GRASIM","HCLTECH","HDFC",
+"HDFCBANK","HEROMOTOCO","HINDALCO","HINDUNILVR","ICICIBANK","INDUSINDBK","INFY","IOC",
+"ITC","JSWSTEEL","KOTAKBANK","LT","MARUTI","MM","NESTLEIND","NTPC","ONGC","POWERGRID","RELIANCE","SBIN",
+"SHREECEM","SUNPHARMA","TATAMOTORS","TATASTEEL","TCS","TECHM","TITAN","ULTRACEMCO","UPL","VEDL","WIPRO",
+"ZEEL"
+]
+
+Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+
+start_date, end_date
+
+& (dfs.Date >= start_date)
+        & (dfs.Date <= end_date)
+
+"colorway": ["#17B897"],
+"colorway": ["#E12D39"],
