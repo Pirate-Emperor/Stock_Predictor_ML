@@ -68,8 +68,7 @@ Follow the prompts to enter the stock ticker, date range, and prediction window.
 
 ## Data Source
 
-The project uses financial APIs such as Yahoo Finance to fetch historical stock data. You can replace the data source or add additional data sources for more comprehensive stock data.
-
+The project uses financial APIs such as Yahoo Finance to fetch historical stock data. 
 ## Development
 
 To enhance the project, you can modify the Python scripts in the `src` directory. Some potential areas for improvement include:
